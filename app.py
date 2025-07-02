@@ -27,13 +27,16 @@ def load_data(file_path):
         df['Date of Purchase'] = pd.to_datetime(df['Date of Purchase'], format='%b-%y', errors='coerce')
         df.dropna(subset=['Date of Purchase'], inplace=True)
         
+        # Fix: Removed inplace=True and used direct assignment
         df['Total Revenue'] = pd.to_numeric(df['Total Revenue'], errors='coerce')
-        df['Total Revenue'].fillna(0, inplace=True)
+        df['Total Revenue'] = df['Total Revenue'].fillna(0)
 
+        # Fix: Removed inplace=True and used direct assignment
         df['Customer Tenure in months'] = pd.to_numeric(df['Customer Tenure in months'], errors='coerce')
-        df['Customer Tenure in months'].fillna(df['Customer Tenure in months'].median(), inplace=True)
+        df['Customer Tenure in months'] = df['Customer Tenure in months'].fillna(df['Customer Tenure in months'].median())
 
-        df['Age'].fillna(df['Age'].median(), inplace=True)
+        # Fix: Removed inplace=True and used direct assignment
+        df['Age'] = df['Age'].fillna(df['Age'].median())
         df['Age'] = df['Age'].astype(int)
 
         df['Churn'] = df['Customer Churn Status'].map({'Yes': 1, 'No': 0})
@@ -203,7 +206,6 @@ with tab1:
     ax_imp.set_ylabel('Feature')
     st.pyplot(fig_imp)
 
-    # New Section: Model Evaluation Metrics
     st.header("📊 Model Evaluation Metrics")
     st.markdown("Here you can see the performance metrics for the trained models.")
 
